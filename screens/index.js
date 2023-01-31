@@ -1,116 +1,181 @@
-import React from "react";
+import * as React from "react";
 import {
   Text,
   View,
-  StyleSheet, Image, ScrollView, Pressable
+  StyleSheet,
+  TextInput,
+  TouchableHighlight
 } from "react-native";
 
-const SubscriptionDetails = () => {
+const pressed = () => {
+  console.log("pressed");
+};
+
+const ForgotPassword = () => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require("./assets/back.png")} style={styles.back} />
-        <Text style={styles.heading}>Subscription</Text>
-        <Text />
-      </View>
-      <View style={styles.reviewContainer}>
-        <Text style={styles.review}>Current Subscription</Text>
-        <Text style={styles.edit}>Free</Text>
+    <View style={styles.container}>
+      <View style={styles.topHead}>
+        <Text style={styles.mainHeading}>Forgot {"\n"} password</Text>
       </View>
 
-      <View style={styles.listContainer}>
-        <Text style={styles.title}>Premium Subscription</Text>
-        <View style={styles.descContainer}>
-          <Text style={styles.desc}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas ultrices risus at neque, at. Cras cursus parturient nec, quam convallis viverra arcu. Lorem pellentesque cras vulputate velit ante tellus.
-          </Text>
-          <Text style={styles.desc}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas ultrices risus at neque, at. Cras cursus parturient nec, quam convallis viverra arcu. Lorem pellentesque cras vulputate velit ante tellus.
+      <View style={styles.inputSection}>
+        <View style={styles.newPassword}>
+          <Text style={styles.newPassword}>
+            Set new password for your account.
           </Text>
         </View>
-        <View style={styles.priceContainer}>
-          <Text style={styles.price}>Price:</Text>
-          <Text style={styles.price}> $14.99</Text>
+        <View style={styles.passwordInput}>
+          <Text style={styles.newPasswordLabel}>Password</Text>
+          <Input placeholder="Enter"></Input>
         </View>
-
-        <Button buttonText={"Upgrade to Premium"} />
+        <View style={styles.confirmInput}>
+          <Text style={styles.newPasswordLabel}>Confirm Password</Text>
+          <Input placeholder="Enter"></Input>
+        </View>
       </View>
-
-    </ScrollView>
+      <View style={styles.resetButton}>
+        <Button onPress={pressed} style={styles.resetBtn}>
+          Reset password
+        </Button>
+      </View>
+      <View style={styles.back}>
+        <Text style={styles.backText}>Back</Text>
+      </View>
+    </View>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  header: {
+  topHead: {
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: 30,
-    marginTop: 15,
-    marginBottom: 30
+    justifyContent: "center",
+    textAlign: "center"
   },
-  back: { width: 11.25, height: 20, resizeMode: "contain", marginLeft: -15 },
-  heading: { fontSize: 16, color: "#000" },
-  reviewContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", backgroundColor: "#fff", paddingHorizontal: 20, paddingVertical: 20, marginVertical: 15 },
-  review: { fontSize: 16, color: "#231F20" },
-  edit: { color: "#12D790", fontSize: 16 },
-  listContainer: { flex: 1, backgroundColor: "#FFF", marginTop: 30, paddingHorizontal: 10, paddingBottom: 25 },
-  title: { fontSize: 24, marginLeft: 20, marginTop: 15, marginBottom: 20, fontWeight: "bold" },
-  descContainer: { paddingHorizontal: 20 },
-  desc: { color: "#757575", marginBottom: 5 },
-  priceContainer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20, marginVertical: 20 },
-  price: { fontSize: 24, fontWeight: "bold" }
+  mainHeading: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  container: {
+    padding: 20,
+    backgroundColor: "#FFF",
+    height: "100%"
+  },
+  inputSection: {
+    paddingTop: 40
+  },
+  newPassword: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  passwordInput: {
+    marginTop: 50
+  },
+  newPasswordLabel: {
+    paddingLeft: 15,
+    paddingBottom: 7
+  },
+  confirmInput: {
+    paddingTop: 10
+  },
+  resetButton: {
+    paddingTop: 20,
+    paddingLeft: 30,
+    paddingRight: 30
+  },
+  back: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 30
+  },
+  backText: {
+    fontWeight: "600",
+    fontSize: 20
+  }
 });
 
-const Button = (params) => {
-  const btnStyle = {
-    backgroundColor: params.outline ? "#fff" : "#12D790",
-    borderColor: params.outline ? "#000" : "#fff",
-    borderWidth: 1
-  };
-  const btnText = {
-    color: params.outline ? "#000" : "#fff"
-  };
+export default ForgotPassword;
+
+const Button = (props) => {
   return (
-    <View style={buttonStyles.btnContainer}>
-      <Pressable style={[buttonStyles.btn, btnStyle]} onPress={params.onPress}>
-        <Text style={[buttonStyles.btnText, btnText]}>{params.buttonText}</Text>
-        <View style={styles.childrenContainer}>{params.children}</View>
-      </Pressable>
+    <TouchableHighlight onPress={props.onPress} underlayColor="#DDDDDD">
+      <View
+        style={[
+          btnStyles.button,
+          {
+            backgroundColor: props.backgroundColor
+              ? props.backgroundColor
+              : "#000000",
+            height: props.height ? props.height : 49,
+            borderWidth: props.borderWidth ? props.borderWidth : 0,
+            borderColor: props.borderColor ? props.borderColor : "#000000"
+          }
+        ]}
+      >
+        <Text
+          style={[
+            btnStyles.text,
+            { color: props.color ? props.color : "#ffffff" }
+          ]}
+        >
+          {props.children}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
+
+const btnStyles = StyleSheet.create({
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 15
+  }
+});
+
+const Input = (props) => {
+  return (
+    <View>
+      <TextInput
+        style={inputStyles.input}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChangeText={(num) => props.setValue(num)}
+        placeholderTextColor="#ddd"
+        editable={props.editable !== false}
+      />
+      {props.errorText
+        ? (
+        <Text style={inputStyles.error}>{props.errorText}</Text>
+          )
+        : null}
     </View>
   );
 };
 
-const buttonStyles = StyleSheet.create({
-  btnContainer: {
-    paddingHorizontal: 40,
-    justifyContent: "center",
-    marginBottom: 10,
-    marginTop: 60
-  },
-  btn: {
-    backgroundColor: "#12D790",
-    height: 50,
-    width: "100%",
-    padding: 10,
-    paddingHorizontal: 25,
+const inputStyles = StyleSheet.create({
+  input: {
+    backgroundColor: "#fff",
+    height: 53,
+    borderColor: "#C4C4C4",
+    color: "#000",
     borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    elevation: 10,
-    flexDirection: "row"
+    fontSize: 14,
+    borderWidth: 1,
+    paddingHorizontal: 15
   },
-  btnText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold"
-  },
-  childrenContainer: {
-    justifyContent: "center",
-    alignItems: "center"
+  error: {
+    fontSize: 13,
+    color: "#FA060D",
+    paddingTop: 8
   }
 });
-export default SubscriptionDetails;
