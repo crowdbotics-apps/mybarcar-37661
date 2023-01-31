@@ -1,125 +1,99 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableHighlight, TextInput } from "react-native";
+import { Text, StyleSheet, View, Image, Pressable } from "react-native";
 
-const SupportSendFeedbackScreen = () => {
+const UploadMediaScreen = (params) => {
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.labelText}>
-          Email address
-        </Text>
-        <Input
-          placeholder='Enter'
-        />
+      <View style={styles.menu}>
+        <View style={styles.menuItem}>
+          <Text style={styles.menuItemText}>Take photo or video</Text>
+          <Image source={require("./assets/cameraIcon.png")} />
+        </View>
+        <View style={styles.menuItem}>
+          <Text style={styles.menuItemText}>Photo Library</Text>
+          <Image source={require("./assets/libraryIcon.png")} />
+        </View>
+        <View style={styles.menuItem}>
+          <Text style={styles.menuItemText}>Browse</Text>
+          <Image source={require("./assets/menuIcon.png")} />
+        </View>
       </View>
-      <View style={styles.Textarea}>
-        <Text style={styles.labelText}>
-          Message
-        </Text>
-        <TextInput style={styles.TextAreaInput}
-          numberOfLines={5}
-          multiline={true}
-          placeholder='Enter'
-          placeholderTextColor='#ddd'
-        />
-      </View>
-
-      <View style={styles.SubmitBtn}>
-        <Button>Submit</Button>
-      </View>
+      <Button buttonText="Cancel" outline={true} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
-    height: "100%",
-    backgroundColor: "white"
+    backgroundColor: "#fff",
+    padding: 20,
+    justifyContent: "flex-end"
   },
-  labelText: {
-    fontSize: 14,
-    fontWeight: "400",
-    marginBottom: 10,
-    marginLeft: 15
-  },
-  Textarea: {
-    marginTop: 30
-  },
-  TextAreaInput: {
-    height: 160,
-    borderWidth: 1,
-    borderColor: "#C4C4C4",
-    borderRadius: 10,
-    textAlignVertical: "top",
-    padding: 10
-  },
-  SubmitBtn: {
-    marginTop: 100
-  }
-});
-
-export default SupportSendFeedbackScreen;
-
-const Button = (props) => {
-  return (
-    <TouchableHighlight onPress={props.onPress} underlayColor='#DDDDDD'>
-      <View style={[btnStyles.button, {
-        backgroundColor: props.backgroundColor ? props.backgroundColor : "#000000",
-        height: props.height ? props.height : 49,
-        borderWidth: props.borderWidth ? props.borderWidth : 0,
-        borderColor: props.borderColor ? props.borderColor : "#000000"
-      }]}>
-        <Text style={[btnStyles.text, { color: props.color ? props.color : "#ffffff" }]}>{props.children}</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-const btnStyles = StyleSheet.create({
-  button: {
-    display: "flex",
-    justifyContent: "center",
+  menuItem: {
+    flexDirection: "row",
     alignItems: "center",
-    borderRadius: 10
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    justifyContent: "space-between",
+    borderBottomWidth: 1,
+    borderColor: "#ccc"
   },
-  text: {
+  menuItemText: {
+    fontSize: 18,
     fontWeight: "bold",
-    fontSize: 15
+    color: "#000",
+    textAlign: "left"
   }
 });
+export default UploadMediaScreen;
 
-const Input = (props) => {
+const Button = (params) => {
+  const btnStyle = {
+    backgroundColor: params.outline ? "#fff" : "#000",
+    borderColor: params.outline ? "#000" : "#fff",
+    borderWidth: 1
+  };
+  const btnText = {
+    color: params.outline ? "#000" : "#fff"
+  };
   return (
-    <View>
-      <TextInput
-        style={textStyles.input}
-        placeholder={props.placeholder}
-        value={props.value}
-        onChangeText={(num) => props.setValue(num)}
-        placeholderTextColor='#ddd'
-        editable={props.editable !== false}
-      />
-      {props.errorText ? <Text style={textStyles.error}>{props.errorText}</Text> : null}
+    <View style={buttonStyles.btnContainer}>
+      <Pressable style={[buttonStyles.btn, btnStyle]} onPress={params.onPress}>
+        <Text style={[buttonStyles.btnText, btnText]}>{params.buttonText}</Text>
+        <View style={styles.childrenContainer}>{params.children}</View>
+      </Pressable>
     </View>
   );
 };
 
-const textStyles = StyleSheet.create({
-  input: {
-    backgroundColor: "#fff",
-    height: 53,
-    borderColor: "#C4C4C4",
-    color: "#000",
-    borderRadius: 10,
-    fontSize: 14,
-    borderWidth: 1,
-    paddingHorizontal: 10
+const buttonStyles = StyleSheet.create({
+  btnContainer: {
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+    marginTop: 20
   },
-  error: {
-    fontSize: 13,
-    color: "#FA060D",
-    paddingTop: 8
+  btn: {
+    backgroundColor: "black",
+    height: 50,
+    width: "100%",
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "rgba(0, 0, 0, 0.2)",
+    elevation: 10,
+    flexDirection: "row"
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  childrenContainer: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
