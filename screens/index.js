@@ -1,232 +1,281 @@
-import React from "react";
-import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View, StyleSheet, Image, Pressable } from "react-native";
+import { Slider } from "react-native-elements";
 
-const ShoppingCartScreen = () => {
+const ProductDetails = () => {
+  const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState(3);
+  useEffect(() => {
+    setProduct({
+      name: "Product name",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta sit bibendum nec tempor consequat consequat pretium. Mollis.",
+      price: 12.5,
+      discountedPrice: 10,
+      caption:
+        "Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+    });
+  }, []);
+  const increment = () => {
+    setQuantity(quantity + 1);
+  };
+  const decrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      setQuantity(1);
+    }
+  };
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.headerCard}>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextOne}>Order</Text>
-            <Text style={styles.cardTextOne}>30.75$</Text>
-          </View>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextOne}>Delivery</Text>
-            <Text style={styles.cardTextOne}>1.25$</Text>
-          </View>
-          <View style={styles.cardContent}>
-            <Text style={styles.cardTextTwo}>Summary</Text>
-            <Text style={styles.cardTextTwo}>32.00$</Text>
-          </View>
-        </View>
-        <View style={styles.tabView}>
-          <View style={styles.selectedTab}>
-            <Text>Select all</Text>
-          </View>
-          <View style={styles.tabItem}>
-            <Text>Delete selected</Text>
-          </View>
-        </View>
-        <View style={styles.cardContent}>
-          <Text style={styles.chartText}>Chart</Text>
-          <Image resizeMode="contain" style={styles.cartImage} source={require("./assets/cart.png")} />
-        </View>
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
-        <View style={styles.btnContainer}>
-          <Button>
-            Checkout
-          </Button>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("./assets/crowdboticsLogo.png")}
+          style={styles.logo}
+        />
       </View>
-    </ScrollView>
+      <View style={styles.cardContainer}>
+        <View style={styles.bar} />
+        <Text style={styles.title}>{product.name}</Text>
+        <Text style={styles.description}>{product.description}</Text>
+        <Slider
+          minimumValue={1}
+          maximumValue={3}
+          step={1}
+          value={size}
+          onValueChange={setSize}
+          minimumTrackTintColor="#ECECEC"
+          maximumTrackTintColor="#ECECEC"
+          thumbTintColor="#EA4335"
+          thumbStyle={styles.thumb}
+          trackStyle={styles.track}
+        />
+        <View style={styles.flexRow}>
+          {["Small", "Medium", "Large"].map((item, index) => (
+            <Text
+              key={index}
+              style={[
+                styles.sizeText,
+                index === size - 1 ? styles.boldSizeText : null
+              ]}
+            >
+              {item}
+            </Text>
+          ))}
+        </View>
+        <View style={styles.counterContainer}>
+          <View style={styles.priceContainer}>
+            <Text style={styles.priceText}>
+              ${product.discountedPrice && product.discountedPrice.toFixed(2)}
+            </Text>
+            <Text style={styles.actualPrice}>
+              ${product.price && product.price.toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.counter}>
+            <Pressable
+              style={[styles.counterBtn, styles.decrement]}
+              onPress={() => decrement()}
+            >
+              <Image
+                source={require("./assets/minusIcon.png")}
+                style={styles.icon}
+              />
+            </Pressable>
+            <Text style={styles.counterText}>{quantity}</Text>
+            <Pressable
+              style={[styles.counterBtn, styles.increment]}
+              onPress={() => increment()}
+            >
+              <Image
+                source={require("./assets/plusIcon.png")}
+                style={styles.icon}
+              />
+            </Pressable>
+          </View>
+        </View>
+        <Text style={styles.description}>{product.caption}</Text>
+        <Button buttonText="Confirm" style={styles.button} />
+      </View>
+    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
-    backgroundColor: "#FFF"
+    backgroundColor: "#E3F3FA"
   },
-  headerCard: {
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    marginVertical: 10,
-    backgroundColor: "#FFF",
-    shadowColor: "rgba(0, 0, 0, 0.4)",
-    elevation: 15,
-    borderRadius: 8
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 200
   },
-  cardContent: {
-    display: "flex",
+  logo: {
+    width: 30,
+    height: 30
+  },
+  cardContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    paddingHorizontal: 40
+  },
+  bar: {
+    height: 6,
+    backgroundColor: "#DDDDDD",
+    borderRadius: 5,
+    width: 60,
+    alignSelf: "center",
+    marginVertical: 10
+  },
+  title: {
+    fontSize: 20,
+    color: "#000",
+    marginVertical: 10
+  },
+  description: {
+    fontSize: 14,
+    color: "#4E4E4E",
+    textAlign: "justify"
+  },
+  thumb: {
+    width: 30,
+    height: 30,
+    borderWidth: 7,
+    borderColor: "rgba(249,216,217,0.6)"
+  },
+  track: {
+    height: 8,
+    borderRadius: 5
+  },
+  flexRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 3
+    alignItems: "center"
   },
-  cardTextOne: {
-    fontSize: 13,
-    color: "#424347"
-  },
-  cardTextTwo: {
+  sizeText: {
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#424347"
+    color: "#9A9A9A"
   },
-  cartImage: {
-    width: 31,
-    height: 23
+  boldSizeText: {
+    color: "#000",
+    fontWeight: "bold"
   },
-  chartText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#1E2022"
+  priceText: {
+    color: "#121212",
+    fontSize: 24,
+    fontWeight: "bold"
   },
-  tabView: {
-    width: "70%",
-    height: 48,
-    backgroundColor: "#F1F1F1",
+  actualPrice: {
+    fontSize: 16,
+    color: "#9A9A9A",
+    textDecorationLine: "line-through",
+    marginLeft: 10
+  },
+  priceContainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
+  },
+  counterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 10,
-    padding: 6,
     marginVertical: 20
   },
-  selectedTab: {
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    width: "50%",
-    height: "100%",
-    justifyContent: "center",
+  counter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    shadowColor: "gray",
-    elevation: 10
-  },
-  tabItem: {
-    width: "50%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F1F1F1",
+    backgroundColor: "#F8F5F2",
+    width: 110,
+    height: 35,
     borderRadius: 10
   },
-  btnContainer: {
-    marginVertical: 20,
-    paddingHorizontal: "10%"
+  counterBtn: {
+    width: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    borderRadius: 10
+  },
+  decrement: {
+    backgroundColor: "#E1E1E1"
+  },
+  increment: {
+    backgroundColor: "#E84C4F"
+  },
+  icon: {
+    width: 15,
+    height: 15,
+    resizeMode: "contain"
+  },
+  button: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 20
   }
 });
 
-export default ShoppingCartScreen;
+export default ProductDetails;
 
-const OrderCard = () => {
+const Button = (params) => {
+  const backgroundColor = params.color || "#000";
+  const textColor = params.textColor || "#fff";
+  const btnStyle = {
+    backgroundColor: backgroundColor,
+    borderColor: params.outlineColor || backgroundColor,
+    borderWidth: 1
+  };
+  const btnText = {
+    color: textColor
+  };
   return (
-    <View style={orderStyles.container}>
-      <View style={orderStyles.order}>
-        <View style={orderStyles.image}>
-          <Image source={require("./assets/edit.png")} />
-        </View>
-        <View style={orderStyles.description}>
-          <Text>Order name</Text>
-          <View style={orderStyles.bottomComponent}>
-            <View style={orderStyles.quantity}>
-              <Text>-</Text>
-              <Text style={{ fontWeight: "bold" }}>3</Text>
-              <Text>+</Text>
-            </View>
-            <Image source={require("./assets/delete.png")} style={orderStyles.img} />
-          </View>
-        </View>
-      </View>
-      <View>
-        <Text style={orderStyles.orderPrice}>$10.25</Text>
+    <View style={[buttonStyles.btnContainer, params.style]}>
+      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
+        <Pressable
+          style={[buttonStyles.btn, btnStyle]}
+          onPress={params.onPress}
+        >
+          <Text style={[buttonStyles.btnText, btnText]}>
+            {params.buttonText}
+          </Text>
+          <View style={styles.childrenContainer}>{params.children}</View>
+        </Pressable>
       </View>
     </View>
   );
 };
 
-const orderStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 12,
-    marginVertical: 10,
-    backgroundColor: "#FFF",
-    shadowColor: "rgba(0, 0, 0, 0.2)",
-    elevation: 15,
+const buttonStyles = StyleSheet.create({
+  btnContainer: {
+    justifyContent: "center"
+  },
+  shadowContainer: {
+    shadowColor: "rgba(0, 0, 0, 0.5)",
+    elevation: 10,
+    backgroundColor: "#fff",
     borderRadius: 10
   },
-  order: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 5
-  },
-  image: {
-    height: 60,
-    width: 60,
-    borderRadius: 30,
-    backgroundColor: "rgba(0, 0, 0, 0.2)",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10
-  },
-  description: {
-    flexDirection: "column",
-    justifyContent: "space-between"
-
-  },
-  quantity: {
-    width: 80,
-    height: 30,
-    backgroundColor: "#F1F1F1",
+  btn: {
+    height: 50,
+    padding: 10,
+    paddingHorizontal: 25,
     borderRadius: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 10,
-    marginTop: 12
-
-  },
-  bottomComponent: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  img: {
-    marginLeft: 10,
-    marginTop: 10
-  },
-  orderPrice: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginRight: 10
-  }
-});
-
-const Button = (props) => {
-  return (
-    <TouchableHighlight onPress={props.onPress} underlayColor='#DDDDDD'>
-      <View style={[btnStyles.button, {
-        backgroundColor: props.backgroundColor ? props.backgroundColor : "#000000",
-        height: props.height ? props.height : 49,
-        borderWidth: props.borderWidth ? props.borderWidth : 0,
-        borderColor: props.borderColor ? props.borderColor : "#000000"
-      }]}>
-        <Text style={[btnStyles.text, { color: props.color ? props.color : "#ffffff" }]}>{props.children}</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-const btnStyles = StyleSheet.create({
-  button: {
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10
+
+    flexDirection: "row"
   },
-  text: {
-    fontWeight: "bold",
-    fontSize: 15
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  childrenContainer: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
