@@ -1,281 +1,256 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, Pressable } from "react-native";
-import { Slider } from "react-native-elements";
+import React, { useState } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  TextInput,
+  Pressable
+} from "react-native";
 
-const ProductDetails = () => {
-  const [product, setProduct] = useState({});
-  const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState(3);
-  useEffect(() => {
-    setProduct({
-      name: "Product name",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Porta sit bibendum nec tempor consequat consequat pretium. Mollis.",
-      price: 12.5,
-      discountedPrice: 10,
-      caption:
-        "Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
-    });
-  }, []);
-  const increment = () => {
-    setQuantity(quantity + 1);
-  };
-  const decrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    } else {
-      setQuantity(1);
-    }
-  };
+const AddCardDetailsScreen = (params) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address1, setAddress1] = useState("");
+  const [address2, setAddress2] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [country, setCountry] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
   return (
-    <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("./assets/crowdboticsLogo.png")}
-          style={styles.logo}
-        />
-      </View>
-      <View style={styles.cardContainer}>
-        <View style={styles.bar} />
-        <Text style={styles.title}>{product.name}</Text>
-        <Text style={styles.description}>{product.description}</Text>
-        <Slider
-          minimumValue={1}
-          maximumValue={3}
-          step={1}
-          value={size}
-          onValueChange={setSize}
-          minimumTrackTintColor="#ECECEC"
-          maximumTrackTintColor="#ECECEC"
-          thumbTintColor="#EA4335"
-          thumbStyle={styles.thumb}
-          trackStyle={styles.track}
-        />
-        <View style={styles.flexRow}>
-          {["Small", "Medium", "Large"].map((item, index) => (
-            <Text
-              key={index}
-              style={[
-                styles.sizeText,
-                index === size - 1 ? styles.boldSizeText : null
-              ]}
-            >
-              {item}
-            </Text>
-          ))}
-        </View>
-        <View style={styles.counterContainer}>
-          <View style={styles.priceContainer}>
-            <Text style={styles.priceText}>
-              ${product.discountedPrice && product.discountedPrice.toFixed(2)}
-            </Text>
-            <Text style={styles.actualPrice}>
-              ${product.price && product.price.toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.counter}>
-            <Pressable
-              style={[styles.counterBtn, styles.decrement]}
-              onPress={() => decrement()}
-            >
-              <Image
-                source={require("./assets/minusIcon.png")}
-                style={styles.icon}
-              />
-            </Pressable>
-            <Text style={styles.counterText}>{quantity}</Text>
-            <Pressable
-              style={[styles.counterBtn, styles.increment]}
-              onPress={() => increment()}
-            >
-              <Image
-                source={require("./assets/plusIcon.png")}
-                style={styles.icon}
-              />
-            </Pressable>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.header}>
+          <View style={styles.paletteContainer}>
+            <View style={styles.unSelected}>
+              <Text>Linked Cards</Text>
+            </View>
+            <View style={styles.selected}>
+              <Text>Add Card</Text>
+            </View>
           </View>
         </View>
-        <Text style={styles.description}>{product.caption}</Text>
-        <Button buttonText="Confirm" style={styles.button} />
-      </View>
-    </View>
+        <View style={styles.fullInputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>First Name</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setFirstName(text)}
+              value={firstName}
+              placeholder="Enter your first name"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Last Name</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setLastName(text)}
+              value={lastName}
+              placeholder="Enter your last name"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Address 1</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setAddress1(text)}
+              value={address1}
+              placeholder="Enter your Address"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Address 2</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setAddress2(text)}
+              value={address2}
+              placeholder="Enter your Address"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+        </View>
+        <View style={styles.halfInputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>City</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setCity(text)}
+              value={city}
+              placeholder="Enter your City"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>State</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setState(text)}
+              value={state}
+              placeholder="Enter your State"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+        </View>
+        <View style={styles.halfInputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Zip</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setZip(text)}
+              value={zip}
+              placeholder="Enter your Zip Code"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Country</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setCountry(text)}
+              value={country}
+              placeholder="Enter your Country"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+        </View>
+        <View style={styles.halfInputs}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>Card Expiration</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setCardExpiry(text)}
+              value={cardExpiry}
+              placeholder="Enter Card Expiration"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputText}>CVV</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={(text) => setCvv(text)}
+              value={cvv}
+              placeholder="Enter your CVV"
+              placeholderTextColor="#9B9B9B"
+              autoCapitalize="none"
+              autoCorrect={false}
+            />
+          </View>
+        </View>
+        <View style={styles.btnContainer}>
+          <Pressable style={styles.btn}>
+            <Text style={styles.btnText}>Update</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E3F3FA"
+    backgroundColor: "#fff"
   },
-  imageContainer: {
+  header: {
+    padding: 20
+  },
+  paletteContainer: {
+    flexDirection: "row",
+    backgroundColor: "#F1F1F1",
+    height: 60,
+    width: 250,
+    borderRadius: 10,
     alignItems: "center",
-    justifyContent: "center",
-    height: 200
+    justifyContent: "space-around",
+    paddingHorizontal: 15
   },
-  logo: {
-    width: 30,
-    height: 30
-  },
-  cardContainer: {
-    flex: 1,
+  selected: {
     backgroundColor: "#fff",
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    paddingHorizontal: 40
+    padding: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#e6e6e6"
   },
-  bar: {
-    height: 6,
-    backgroundColor: "#DDDDDD",
-    borderRadius: 5,
-    width: 60,
-    alignSelf: "center",
-    marginVertical: 10
+  unSelected: {
+    padding: 10,
+    paddingHorizontal: 25
   },
-  title: {
-    fontSize: 20,
-    color: "#000",
-    marginVertical: 10
-  },
-  description: {
-    fontSize: 14,
-    color: "#4E4E4E",
-    textAlign: "justify"
-  },
-  thumb: {
-    width: 30,
-    height: 30,
-    borderWidth: 7,
-    borderColor: "rgba(249,216,217,0.6)"
-  },
-  track: {
-    height: 8,
-    borderRadius: 5
-  },
-  flexRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  sizeText: {
-    fontSize: 16,
-    color: "#9A9A9A"
-  },
-  boldSizeText: {
-    color: "#000",
-    fontWeight: "bold"
-  },
-  priceText: {
-    color: "#121212",
-    fontSize: 24,
-    fontWeight: "bold"
-  },
-  actualPrice: {
-    fontSize: 16,
-    color: "#9A9A9A",
-    textDecorationLine: "line-through",
-    marginLeft: 10
-  },
-  priceContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  counterContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: 20
-  },
-  counter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#F8F5F2",
-    width: 110,
-    height: 35,
-    borderRadius: 10
-  },
-  counterBtn: {
-    width: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
-    borderRadius: 10
-  },
-  decrement: {
-    backgroundColor: "#E1E1E1"
-  },
-  increment: {
-    backgroundColor: "#E84C4F"
-  },
-  icon: {
-    width: 15,
-    height: 15,
-    resizeMode: "contain"
-  },
-  button: {
-    flex: 1,
-    justifyContent: "flex-end",
-    marginBottom: 20
-  }
-});
-
-export default ProductDetails;
-
-const Button = (params) => {
-  const backgroundColor = params.color || "#000";
-  const textColor = params.textColor || "#fff";
-  const btnStyle = {
-    backgroundColor: backgroundColor,
-    borderColor: params.outlineColor || backgroundColor,
-    borderWidth: 1
-  };
-  const btnText = {
-    color: textColor
-  };
-  return (
-    <View style={[buttonStyles.btnContainer, params.style]}>
-      <View style={!params.hideShadow ? buttonStyles.shadowContainer : null}>
-        <Pressable
-          style={[buttonStyles.btn, btnStyle]}
-          onPress={params.onPress}
-        >
-          <Text style={[buttonStyles.btnText, btnText]}>
-            {params.buttonText}
-          </Text>
-          <View style={styles.childrenContainer}>{params.children}</View>
-        </Pressable>
-      </View>
-    </View>
-  );
-};
-
-const buttonStyles = StyleSheet.create({
-  btnContainer: {
+  fullInputs: {
+    paddingHorizontal: 20,
     justifyContent: "center"
   },
-  shadowContainer: {
-    shadowColor: "rgba(0, 0, 0, 0.5)",
-    elevation: 10,
-    backgroundColor: "#fff",
-    borderRadius: 10
+  inputContainer: {
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 5
+  },
+  inputText: {
+    fontSize: 16,
+    marginLeft: 20
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e6e6e6",
+    borderRadius: 10,
+    padding: 10,
+    paddingLeft: 20,
+    marginVertical: 10,
+    width: "100%"
+  },
+  halfInputs: {
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+    flexDirection: "row" // borderColor: '#9B9B9B',
+    // borderWidth: 1,
+  },
+  btnContainer: {
+    padding: 30,
+    paddingTop: 10,
+    paddingHorizontal: 40,
+    justifyContent: "center",
+    marginTop: 20
   },
   btn: {
+    backgroundColor: "black",
     height: 50,
+    width: "100%",
     padding: 10,
     paddingHorizontal: 25,
     borderRadius: 10,
     justifyContent: "center",
-    alignItems: "center",
-
-    flexDirection: "row"
+    alignItems: "center"
   },
   btnText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold"
-  },
-  childrenContainer: {
-    justifyContent: "center",
-    alignItems: "center"
   }
 });
+export default AddCardDetailsScreen;
